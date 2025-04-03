@@ -82,6 +82,7 @@ ruby.toolchain(
     version = "system",
 )
 use_repo(ruby, "ruby")
+
 ruby.bundle_fetch(
     name = "protobuf_bundle",
     gem_checksums = {
@@ -108,6 +109,10 @@ register_toolchains(
 
 # Proto toolchains
 register_toolchains("//bazel/private/toolchains:all")
+
+# Proto toolchains for Bazel 7
+# Should probably actually be set in Bazel 7's MODULE.bazel
+register_toolchains("@rules_proto//proto:all")
 
 SUPPORTED_PYTHON_VERSIONS = [
     "3.9",
@@ -228,7 +233,7 @@ cc_configure = use_extension("@rules_cc//cc:extensions.bzl", "cc_configure_exten
 use_repo(cc_configure, "local_config_cc")
 
 # rules_proto are needed for @com_google_protobuf_v25 used in //compatibility/... tests
-bazel_dep(name = "rules_proto", version = "7.0.2", dev_dependency = True)
+bazel_dep(name = "rules_proto", version = "7.0.2")
 
 # For the Lua upb implementation
 bazel_dep(name = "lua", version = "5.4.6", dev_dependency = True)
